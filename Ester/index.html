@@ -1,0 +1,276 @@
+
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <title>Mwaliko wa Harusi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0b1a36;
+            font-family: 'Playfair Display', serif;
+            color: goldenrod;
+            width: 100vw;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            max-width: 520px;
+            margin: 30px auto;
+            padding: 40px 40px 80px;
+            background-color: rgba(11, 26, 54, 0.9);
+            position: relative;
+            border-radius: 20px;
+            border: 5px solid gold;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            overflow: hidden;
+            transform: scale(0.8);
+            opacity: 0;
+            animation: cardOpen 1.2s ease forwards;
+        }
+
+        @keyframes cardOpen {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Border glow effect */
+        @keyframes glow {
+            0% { box-shadow: 0 0 15px gold; }
+            50% { box-shadow: 0 0 30px gold; }
+            100% { box-shadow: 0 0 15px gold; }
+        }
+        .card {
+            animation: cardOpen 1.2s ease forwards, glow 3s infinite ease-in-out;
+        }
+
+        /* Background overlay */
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url('images/image_background.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 0;
+            border-radius: 20px;
+        }
+
+        .card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Text animations */
+        .header, .content, .contacts {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeSlide 1s forwards;
+        }
+
+        .header { animation-delay: 0.5s; }
+        .content { animation-delay: 1s; }
+        .contacts { animation-delay: 1.5s; }
+
+        @keyframes fadeSlide {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: right;
+            font-size: 3rem;
+            color: gold;
+            font-family: 'Great Vibes', cursive;
+            text-shadow: 2px 2px 5px rgba(255, 215, 0, 0.7);
+        }
+
+        .content {
+            text-align: center;
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        .recipient-box {
+            color: gold;
+            width: 80%;
+            margin: 20px auto;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.8rem;
+            min-height: 48px;
+            border-radius: 12px;
+            font-family: 'Great Vibes', cursive;
+            text-align: center;
+        }
+
+        .highlight {
+            font-size: 3rem;
+            color: gold;
+            font-family: 'Great Vibes', cursive;
+            text-shadow: 2px 2px 5px rgba(255, 215, 0, 0.7);
+        }
+
+        .contacts {
+            margin-top: 20px;
+            font-size: 14px;
+            color: gold;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .copyable {
+            cursor: pointer;
+            display: inline-block;
+            margin: 10px 0;
+            padding: 6px 10px;
+            border-radius: 6px;
+            box-shadow: 0 0 6px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        .copyable:hover {
+            color: #ffd700;
+            background-color: rgba(255, 215, 0, 0.15);
+            box-shadow: 0 0 15px gold;
+        }
+
+        /* Floating flowers animation */
+        .flowers-top, .flowers-bottom {
+            position: absolute;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .flowers-top {
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            animation: float 6s ease-in-out infinite;
+        }
+        .flowers-bottom {
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(15px); }
+        }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #e67600;
+            padding: 18px 30px;
+            border-radius: 40px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 0 30px #e67600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 9999;
+        }
+        #toast.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="images/leftAngleTop_flower.png" alt="flower-top" class="flowers-top" />
+        <img src="images/bottom-flower.png" alt="flower-bottom" class="flowers-bottom" />
+
+        <div class="header">Mwaliko wa Harusi</div>
+
+        <div class="content">
+            Familia ya <strong>Mr & Mrs Natalis Mataba</strong> wa Maswa Simiyu wanayo furaha kukutaarifu/kuwataarifu <br />
+            <div class="recipient-box" id="inviteeName">_</div>
+            Kuwa binti yao mpendwa <br />
+            <span class="highlight">Ester Michael Mmbaga</span><br /><br />
+            Anatarajia kufunga ndoa takatifu tarehe <strong>15/11/2025</strong> Dar es Salaam.<br />
+            Hivyo ukiwa ndugu jamaa na rafiki wa karibu na familia hii, <br />
+            tunaomba mchango wako wa hali na mali kuhakikisha shughuli hii inafanikiwa.<br />
+            Ili kufanikisha shughuli hii muhimu karibu kwa ahadi.
+        </div>
+
+        <div class="contacts">
+            <div class="copyable" onclick="copyToClipboard('0622 592 645')">
+                0622 592 645 (YAS/TIGOPESA) - VICTOR NATALIS MATABA
+            </div>
+            <div class="copyable" onclick="copyToClipboard('0758 631 012')">
+                0758 631 012 (MPESA) - FRANK MATABA
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" onclick="hideToast()">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        const hasParams = new URLSearchParams(window.location.hash.slice(1));
+        const encodedName = hasParams.get('invitee');
+        const inviteeName = document.getElementById('inviteeName');
+
+        if (encodedName) {
+            try {
+                inviteeName.textContent = atob(encodedName) || '_';
+            } catch {
+                inviteeName.textContent = '_';
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Namba imekamilika kunakiliwa: " + text);
+            });
+        }
+
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        let toastTimeout;
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(hideToast, 3500);
+        }
+
+        function hideToast() {
+            toast.classList.remove('show');
+        }
+    </script>
+</body>
+</html>
+
+
+
+

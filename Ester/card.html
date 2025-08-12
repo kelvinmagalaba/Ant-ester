@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="sw">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Mwaliko wa Harusi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b1a36 0%, #1a2a4a 50%, #0b1a36 100%);
+            font-family: 'Playfair Display', serif;
+            color: goldenrod;
+            width: 100vw;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            animation: gradientShift 10s ease-in-out infinite;
+        }
+
+        /* Gradient Animation */
+        @keyframes gradientShift {
+            0%, 100% {
+                background: linear-gradient(135deg, #0b1a36 0%, #1a2a4a 50%, #0b1a36 100%);
+            }
+            25% {
+                background: linear-gradient(135deg, #1a2a4a 0%, #0b1a36 50%, #1a2a4a 100%);
+            }
+            50% {
+                background: linear-gradient(135deg, #0f1f3f 0%, #152238 50%, #0f1f3f 100%);
+            }
+            75% {
+                background: linear-gradient(135deg, #152238 0%, #0b1a36 50%, #152238 100%);
+            }
+        }
+
+        /* Twinkling Stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 215, 0, 0.8);
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scale(1); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.5); 
+            }
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .music-icon {
+            width: 30px;
+            height: 30px;
+            color: gold;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-player.playing .music-icon {
+            animation: musicPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Photo Gallery */
+        .photo-gallery {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .photo-gallery:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .gallery-icon {
+            width: 30px;
+            height: 30px;
+            color: gold;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Gallery Modal */
+        .gallery-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gallery-content {
+            max-width: 80%;
+            max-height: 80%;
+            position: relative;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .close-gallery {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Envelope Container */
+        .envelope-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin: 20px;
+            perspective: 1000px;
+        }
+
+        /* Animated Envelope */
+        .envelope {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #8B4513, #A0522D, #CD853F);
+            border-radius: 20px;
+            box-shadow: 
+                0 0 50px rgba(139, 69, 19, 0.8),
+                inset 0 0 30px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            animation: envelopeGlow 3s ease-in-out infinite alternate;
+        }
+
+        /* Envelope Flap */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(45deg, #A0522D, #CD853F, #D2691E);
+            border-radius: 20px 20px 0 0;
+            transform-origin: bottom;
+            animation: flapOpen 2s ease-in-out 1s forwards;
+            z-index: 2;
+        }
+
+        @keyframes flapOpen {
+            0% {
+                transform: rotateX(0deg);
+            }
+            100% {
+                transform: rotateX(-180deg);
+            }
+        }
+
+        @keyframes envelopeGlow {
+            0% {
+                box-shadow: 
+                    0 0 50px rgba(139, 69, 19, 0.8),
+                    inset 0 0 30px rgba(0, 0, 0, 0.3);
+            }
+            100% {
+                box-shadow: 
+                    0 0 80px rgba(255, 215, 0, 0.4),
+                    0 0 50px rgba(139, 69, 19, 0.8),
+                    inset 0 0 30px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Card */
+        .card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 480px;
+            width: calc(100% - 30px);
+            padding: 25px 20px 40px;
+            background: linear-gradient(145deg, rgba(11, 26, 54, 0.95), rgba(20, 40, 80, 0.9));
+            box-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.6),
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                inset 0 0 20px rgba(255, 215, 0, 0.1);
+            overflow: hidden;
+            z-index: 3;
+            border-radius: 20px;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            opacity: 0;
+            animation: cardEmerge 3.5s ease-in-out 1.5s forwards, cardFloat 4s ease-in-out 5s infinite, cardGlow 2s ease-in-out 5s infinite alternate;
+            transition: all 0.3s ease;
+        }
+
+        /* Enhanced Hover Effects */
+        .card:hover {
+            transform: translate(-50%, -50%) scale(1.02) rotateY(5deg);
+            box-shadow: 
+                0 0 50px rgba(255, 215, 0, 0.8),
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                inset 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Card Emerging from Envelope with WOW Factor */
+        @keyframes cardEmerge {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) translateY(150px) scale(0.6);
+            }
+            30% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) translateY(-40px) scale(1.2);
+            }
+            60% {
+                opacity: 0.9;
+                transform: translate(-50%, -50%) translateY(10px) scale(0.95);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateY(-5px) scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateY(0) scale(1);
+            }
+        }
+
+        /* Floating Animation */
+        @keyframes cardFloat {
+            0%, 100% {
+                transform: translate(-50%, -50%) translateY(0px) scale(1);
+            }
+            50% {
+                transform: translate(-50%, -50%) translateY(-15px) scale(1.02);
+            }
+        }
+
+        /* Golden Glow Effect */
+        @keyframes cardGlow {
+            0% {
+                box-shadow: 
+                    0 0 30px rgba(255, 215, 0, 0.6),
+                    0 10px 40px rgba(0, 0, 0, 0.5),
+                    inset 0 0 20px rgba(255, 215, 0, 0.1);
+            }
+            100% {
+                box-shadow: 
+                    0 0 50px rgba(255, 215, 0, 0.8),
+                    0 15px 60px rgba(0, 0, 0, 0.6),
+                    inset 0 0 30px rgba(255, 215, 0, 0.2);
+            }
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url('images/image_background.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 0;
+            filter: brightness(0.9);
+            border-radius: 20px;
+            animation: backgroundShift 8s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.05) rotate(1deg);
+            }
+        }
+
+        .card>* {
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Typing Animation */
+        .header {
+            text-align: center;
+            font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+            color: gold;
+            font-family: 'Great Vibes', cursive;
+            text-shadow: 
+                2px 2px 5px rgba(255, 215, 0, 0.7),
+                0 0 20px rgba(255, 215, 0, 0.5);
+            user-select: none;
+            margin-bottom: 15px;
+            animation: textGlow 3s ease-in-out infinite alternate, typing 3s steps(20) 2s both;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid gold;
+        }
+
+        @keyframes typing {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        @keyframes textGlow {
+            0% {
+                text-shadow: 
+                    2px 2px 5px rgba(255, 215, 0, 0.7),
+                    0 0 20px rgba(255, 215, 0, 0.5);
+            }
+            100% {
+                text-shadow: 
+                    2px 2px 5px rgba(255, 215, 0, 0.9),
+                    0 0 30px rgba(255, 215, 0, 0.8),
+                    0 0 50px rgba(255, 215, 0, 0.3);
+            }
+        }
+
+        .content {
+            text-align: center;
+            line-height: 1.6;
+            font-size: clamp(13px, 2.8vw, 16px);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 15px;
+            animation: contentFade 2s ease-in-out 2s both;
+        }
+
+        @keyframes contentFade {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .recipient-box {
+            color: gold;
+            width: 90%;
+            max-width: 350px;
+            margin: 15px auto;
+            padding: 12px 18px;
+            font-weight: bold;
+            font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+            min-height: 40px;
+            border-radius: 12px;
+            font-family: 'Great Vibes', cursive;
+            text-align: center;
+            user-select: text;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            animation: recipientPulse 2s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .recipient-box:hover {
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes recipientPulse {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            }
+        }
+
+        .highlight {
+            font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+            color: gold;
+            font-family: 'Great Vibes', cursive;
+            text-shadow: 
+                2px 2px 5px rgba(255, 215, 0, 0.7),
+                0 0 20px rgba(255, 215, 0, 0.5);
+            user-select: none;
+            animation: highlightFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes highlightFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .contacts {
+            margin-top: 15px;
+            font-size: clamp(11px, 2.3vw, 13px);
+            color: gold;
+            text-align: center;
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+            animation: contactsSlide 2s ease-in-out 2.5s both;
+        }
+
+        @keyframes contactsSlide {
+            0% {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .copyable {
+            cursor: pointer;
+            display: inline-block;
+            margin: 8px 4px;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 6px;
+            box-shadow: 0 0 6px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            animation: copyableHover 2s ease-in-out infinite;
+            word-break: break-word;
+        }
+
+        @keyframes copyableHover {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .copyable:hover {
+            color: #ffd700;
+            background-color: rgba(255, 215, 0, 0.15);
+            box-shadow: 0 0 15px gold;
+            text-decoration: underline;
+            transform: scale(1.05);
+        }
+
+        /* Fixed Flower Positioning */
+        .flowers-top,
+        .flowers-bottom {
+            position: absolute;
+            z-index: 10;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .flowers-top {
+            top: -150px;
+            left: -150px;
+            width: 80%;
+            max-width: 300px;
+            animation: flowerFloat 6s ease-in-out infinite;
+        }
+
+        .flowers-bottom {
+            bottom: -160px;
+            left: 50%;
+            transform: translateX(-50%) scale(1.8);
+            width: 120%;
+            max-width: 500px;
+            animation: flowerFloat 6s ease-in-out infinite reverse;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+            z-index: 15;
+        }
+
+        @keyframes flowerFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+            50% {
+                transform: translateY(-5px) rotate(-1deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(1deg);
+            }
+        }
+
+        /* Special animation for bottom flower */
+        .flowers-bottom {
+            animation: flowerFloatBottom 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes flowerFloatBottom {
+            0%, 100% {
+                transform: translateX(-50%) scale(1.8) translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateX(-50%) scale(1.8) translateY(-15px) rotate(2deg);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.8) translateY(-8px) rotate(-1deg);
+            }
+            75% {
+                transform: translateX(-50%) scale(1.8) translateY(-20px) rotate(1deg);
+            }
+        }
+
+        /* Enhanced Particle Animations */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.8), rgba(255, 215, 0, 0.3));
+            border-radius: 50%;
+            animation: particleFloat 8s linear infinite;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) translateX(10px) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) translateX(-10px) scale(1);
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            padding: 18px 30px 18px 70px;
+            border-radius: 40px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 0 30px #e67600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            user-select: none;
+            z-index: 9999;
+        }
+
+        #toast.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .envelope-container {
+                height: 450px;
+                margin: 15px;
+                max-width: 500px;
+            }
+            
+            .card {
+                padding: 20px 15px 40px;
+                max-width: 440px;
+                width: calc(100% - 30px);
+            }
+            
+            .header {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+            
+            .highlight {
+                font-size: 2.5rem;
+            }
+            
+            .content {
+                font-size: 15px;
+                line-height: 1.6;
+                margin-bottom: 15px;
+            }
+            
+            .recipient-box {
+                width: 95%;
+                padding: 12px 18px;
+                font-size: 1.4rem;
+                margin: 15px auto;
+            }
+            
+            .copyable {
+                display: block;
+                margin: 8px auto;
+                max-width: 300px;
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+            
+            .contacts {
+                margin-top: 20px;
+                font-size: 13px;
+            }
+            
+            .flowers-top {
+                top: -70px;
+                left: -70px;
+                width: 65%;
+                max-width: 220px;
+            }
+            
+            .flowers-bottom {
+                bottom: -100px;
+                width: 110%;
+                max-width: 380px;
+                transform: translateX(-50%) scale(1.5);
+            }
+
+            .music-player, .photo-gallery {
+                top: 10px;
+                right: 10px;
+                left: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .envelope-container {
+                height: 400px;
+                margin: 10px;
+                max-width: 450px;
+            }
+            
+            .card {
+                padding: 15px 10px 35px;
+                max-width: 400px;
+                width: calc(100% - 20px);
+            }
+            
+            .header {
+                font-size: 2.2rem;
+                margin-bottom: 12px;
+            }
+            
+            .highlight {
+                font-size: 2.2rem;
+            }
+            
+            .content {
+                font-size: 14px;
+                line-height: 1.5;
+                margin-bottom: 12px;
+            }
+            
+            .recipient-box {
+                font-size: 1.3rem;
+                padding: 10px 15px;
+                margin: 12px auto;
+            }
+            
+            .contacts {
+                margin-top: 15px;
+                font-size: 12px;
+            }
+            
+            .copyable {
+                font-size: 12px;
+                padding: 8px 10px;
+                margin: 8px auto;
+                max-width: 280px;
+            }
+            
+            .flowers-top {
+                top: -50px;
+                left: -50px;
+                width: 55%;
+                max-width: 180px;
+            }
+            
+            .flowers-bottom {
+                bottom: -80px;
+                width: 100%;
+                max-width: 320px;
+                transform: translateX(-50%) scale(1.3);
+            }
+
+            .music-player, .photo-gallery {
+                top: 5px;
+                right: 5px;
+                left: auto;
+                padding: 8px;
+            }
+
+            .music-icon, .gallery-icon {
+                width: 25px;
+                height: 25px;
+                font-size: 16px;
+            }
+
+            .music-player, .photo-gallery {
+                top: 5px;
+                right: 5px;
+                left: auto;
+                padding: 8px;
+            }
+
+            .music-icon, .gallery-icon {
+                width: 25px;
+                height: 25px;
+                font-size: 16px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .envelope-container {
+                max-width: 650px;
+                height: 480px;
+                margin: 25px;
+            }
+            
+            .card {
+                max-width: 580px;
+                padding: 35px 30px 60px;
+                width: calc(100% - 40px);
+            }
+            
+            .header {
+                font-size: 3.2rem;
+                margin-bottom: 25px;
+            }
+            
+            .highlight {
+                font-size: 3.2rem;
+            }
+            
+            .content {
+                font-size: 18px;
+                line-height: 1.7;
+                margin-bottom: 20px;
+            }
+            
+            .recipient-box {
+                font-size: 1.9rem;
+                padding: 20px 25px;
+                margin: 20px auto;
+                max-width: 450px;
+            }
+            
+            .contacts {
+                margin-top: 25px;
+                font-size: 15px;
+            }
+            
+            .copyable {
+                font-size: 15px;
+                padding: 12px 18px;
+                margin: 10px 8px;
+            }
+            
+            .flowers-top {
+                top: -100px;
+                left: -100px;
+                width: 80%;
+                max-width: 300px;
+            }
+            
+            .flowers-bottom {
+                bottom: -120px;
+                width: 115%;
+                max-width: 450px;
+                transform: translateX(-50%) scale(1.6);
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .envelope-container {
+                height: 350px;
+            }
+            
+            .card {
+                padding: 20px 25px 50px;
+                max-width: 500px;
+            }
+            
+            .header {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+            
+            .highlight {
+                font-size: 2.5rem;
+            }
+            
+            .content {
+                font-size: 16px;
+                line-height: 1.6;
+                margin-bottom: 15px;
+            }
+            
+            .recipient-box {
+                margin: 15px auto;
+                padding: 12px 20px;
+                font-size: 1.8rem;
+            }
+            
+            .contacts {
+                margin-top: 20px;
+                font-size: 14px;
+            }
+            
+            .copyable {
+                padding: 10px 15px;
+                margin: 8px 5px;
+                font-size: 14px;
+            }
+            
+            .flowers-top {
+                top: -50px;
+                left: -50px;
+                width: 50%;
+            }
+            
+            .flowers-bottom {
+                bottom: -70px;
+                width: 95%;
+                max-width: 280px;
+                transform: translateX(-50%) scale(1.2);
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 360px) {
+            .envelope-container {
+                height: 400px;
+                margin: 5px;
+                max-width: 350px;
+            }
+            
+            .card {
+                padding: 15px 10px 40px;
+                max-width: 320px;
+                width: calc(100% - 10px);
+            }
+            
+            .header {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            
+            .highlight {
+                font-size: 2rem;
+            }
+            
+            .content {
+                font-size: 14px;
+                line-height: 1.6;
+                margin-bottom: 15px;
+            }
+            
+            .recipient-box {
+                font-size: 1.2rem;
+                padding: 10px 15px;
+                margin: 15px auto;
+            }
+            
+            .contacts {
+                margin-top: 20px;
+                font-size: 12px;
+            }
+            
+            .copyable {
+                font-size: 12px;
+                padding: 8px 10px;
+                margin: 8px auto;
+                max-width: 280px;
+            }
+            
+            .flowers-top {
+                top: -40px;
+                left: -40px;
+                width: 50%;
+                max-width: 150px;
+            }
+            
+            .flowers-bottom {
+                bottom: -60px;
+                width: 90%;
+                max-width: 240px;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
+        /* Large tablets */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .envelope-container {
+                max-width: 650px;
+                height: 480px;
+                margin: 20px;
+            }
+            
+            .card {
+                max-width: 580px;
+                padding: 35px 25px 75px;
+                width: calc(100% - 40px);
+            }
+            
+            .header {
+                font-size: 3.2rem;
+                margin-bottom: 30px;
+            }
+            
+            .highlight {
+                font-size: 3.2rem;
+            }
+            
+            .content {
+                font-size: 18px;
+                line-height: 1.8;
+                margin-bottom: 25px;
+            }
+            
+            .recipient-box {
+                font-size: 1.9rem;
+                padding: 20px 25px;
+                margin: 25px auto;
+                max-width: 450px;
+            }
+            
+            .contacts {
+                margin-top: 35px;
+                font-size: 15px;
+            }
+            
+            .copyable {
+                font-size: 15px;
+                padding: 12px 18px;
+                margin: 12px 8px;
+            }
+            
+            .flowers-top {
+                top: -100px;
+                left: -100px;
+                width: 75%;
+                max-width: 280px;
+            }
+            
+            .flowers-bottom {
+                bottom: -100px;
+                width: 90%;
+                max-width: 340px;
+                transform: translateX(-50%) scale(1.25);
+            }
+        }
+
+        /* Extra large screens */
+        @media (min-width: 1400px) {
+            .envelope-container {
+                max-width: 750px;
+                height: 550px;
+                margin: 40px;
+            }
+            
+            .card {
+                max-width: 650px;
+                padding: 45px 35px 90px;
+                width: calc(100% - 60px);
+            }
+            
+            .header {
+                font-size: 3.8rem;
+                margin-bottom: 35px;
+            }
+            
+            .highlight {
+                font-size: 3.8rem;
+            }
+            
+            .content {
+                font-size: 20px;
+                line-height: 1.9;
+                margin-bottom: 30px;
+            }
+            
+            .recipient-box {
+                font-size: 2.2rem;
+                padding: 25px 30px;
+                margin: 30px auto;
+                max-width: 500px;
+            }
+            
+            .contacts {
+                margin-top: 40px;
+                font-size: 16px;
+            }
+            
+            .copyable {
+                font-size: 16px;
+                padding: 15px 20px;
+                margin: 15px 10px;
+            }
+            
+            .flowers-top {
+                top: -120px;
+                left: -120px;
+                width: 85%;
+                max-width: 350px;
+            }
+            
+            .flowers-bottom {
+                bottom: -140px;
+                width: 120%;
+                max-width: 550px;
+                transform: translateX(-50%) scale(1.8);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Twinkling Stars -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Music Player -->
+    <div class="music-player" id="musicPlayer" onclick="toggleMusic()">
+        <div class="music-icon">🎵</div>
+    </div>
+
+    <!-- Photo Gallery -->
+    <div class="photo-gallery" onclick="openGallery()">
+        <div class="gallery-icon">📷</div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal" id="galleryModal">
+        <div class="gallery-content">
+            <div class="close-gallery" onclick="closeGallery()">×</div>
+            <img src="images/image_background.jpg" alt="Wedding Photo" class="gallery-image">
+        </div>
+    </div>
+
+    <!-- Enhanced Floating Particles -->
+    <div class="floating-particles" id="particles"></div>
+
+    <!-- Envelope Container with Animation -->
+    <div class="envelope-container">
+        <div class="envelope">
+            <div class="envelope-flap"></div>
+        </div>
+        
+        <div class="card">
+            <img src="images/leftAngleTop_flower.png" alt="flower-top" class="flowers-top" />
+            <img src="images/bottom-flower.png" alt="flower-bottom" class="flowers-bottom" />
+
+            <div class="header">Mwaliko wa Harusi</div>
+
+            <div class="content">
+                Familia ya <strong>Mr & Mrs Natalis Mataba</strong> wa Maswa Simiyu wanayo furaha kukutaarifu/kuwataarifu <br />
+                <div class="recipient-box" id="inviteeName">_</div>
+                Kuwa binti yao mpendwa <br />
+                <span class="highlight">Ester Michael Mmbaga</span><br /><br />
+                Anatarajia kufunga ndoa takatifu tarehe <strong>15/11/2025</strong> Dar es Salaam.<br />
+                Hivyo ukiwa ndugu jamaa na rafiki wa karibu na familia hii, <br />
+                tunaomba mchango wako wa hali na mali kuhakikisha shughuli hii inafanikiwa.<br />
+                Ili kufanikisha shughuli hii muhimu karibu kwa ahadi.
+            </div>
+
+            <div class="contacts">
+                <div class="copyable" onclick="copyToClipboard('0622 592 645')">
+                    0622 592 645 (YAS/TIGOPESA) - VICTOR NATALIS MATABA
+                </div>
+        
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" onclick="hideToast()">
+        <img src="photos/cash.jpg" alt="cash" />
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Handle invitee name
+        const hasParams = new URLSearchParams(window.location.hash.slice(1));
+        const encodedName = hasParams.get('invitee');
+        const inviteeName = document.getElementById('inviteeName');
+
+        if (encodedName) {
+            try {
+                const decodedName = atob(encodedName);
+                inviteeName.textContent = decodedName || '_';
+            } catch {
+                inviteeName.textContent = '_';
+            }
+        } else {
+            inviteeName.textContent = '_';
+        }
+
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Namba imekamilika kunakiliwa: " + text);
+            }, () => {
+                alert("Samahani, kuna tatizo kunakili namba.");
+            });
+        }
+
+        // Toast notification functions
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        let toastTimeout;
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                hideToast();
+            }, 3500);
+        }
+
+        function hideToast() {
+            toast.classList.remove('show');
+        }
+
+        // Music Player
+        let isPlaying = false;
+        const musicPlayer = document.getElementById('musicPlayer');
+
+        function toggleMusic() {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                musicPlayer.classList.add('playing');
+                // Add music functionality here
+                showToast("Muziki umeanza kucheza 🎵");
+            } else {
+                musicPlayer.classList.remove('playing');
+                showToast("Muziki umesitishwa ⏸️");
+            }
+        }
+
+        // Photo Gallery
+        function openGallery() {
+            const modal = document.getElementById('galleryModal');
+            modal.style.display = 'flex';
+            showToast("Picha za harusi 📷");
+        }
+
+        function closeGallery() {
+            const modal = document.getElementById('galleryModal');
+            modal.style.display = 'none';
+        }
+
+        // Close gallery when clicking outside
+        document.getElementById('galleryModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeGallery();
+            }
+        });
+
+
+
+        // Create twinkling stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = window.innerWidth < 768 ? 30 : 50;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create enhanced floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = window.innerWidth < 768 ? 15 : 25;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize everything when page loads
+        window.addEventListener('load', () => {
+            createStars();
+            createParticles();
+        });
+
+        // Responsive adjustments
+        window.addEventListener('resize', () => {
+            // Recreate stars and particles for different screen sizes
+            const starsContainer = document.getElementById('stars');
+            const particlesContainer = document.getElementById('particles');
+            starsContainer.innerHTML = '';
+            particlesContainer.innerHTML = '';
+            createStars();
+            createParticles();
+        });
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to contact items
+            const contactItems = document.querySelectorAll('.copyable');
+            contactItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05) translateY(-2px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
